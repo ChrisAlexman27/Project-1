@@ -1,114 +1,48 @@
-//Project 1
-// 
-// Minesweep v2.0
-//
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <cstdlib>
-
-using namespace std;
-
-struct Board
-{
-    int size;                   //the width and length of the board
-    int mines;                  //the number of mines
-};
-
-//void rules();
-void usrInput(Board&);
-void setup(Board&, char grid[], char hdnGrid[]);
-void setMine(Board&, char hdnGrid[]);
+////////////////////////////////////////////////////////////////////////////////
+// Christopher Alexman                CSC 17A                       Project 1 //
+//                                                                            //
+//                                  MINESWEEPER                               //
+// 11/5/2017                                                             v1.0 //          
+////////////////////////////////////////////////////////////////////////////////
+#include "board.h"
+#include "header.h"
 
 int main()
 {
     Board player;               //player is a Board structure variable
     
-    char grid[player.size * player.size];
-    char hdnGrid[player.size * player.size];
-    
+//call the intro function, explain rules
+    intro();
+
 //get user input for width, length, and bombs
     usrInput(player);
     
+//dynamically allocate memory for the character arrays that hold the board
+    char *grid = nullptr;               //to point to grid
+    char *hdnGrid = nullptr;            //to point to hdnGrid, the hidden grid
+    
+//dynamically allocate a char array large enough to hold the size*size
+    grid = new char[player.size*player.size];
+    hdnGrid= new char[player.size*player.size];
+    
+//to set up the board, initialize char arrays with '-'
     setup(player, grid, hdnGrid);
     
+//to place the mines in random spots in the hidden grid
     setMine(player, hdnGrid);
+    
+//to calculate for each spot on the hidden grid, how many of the 8 surrounding
+//squares are mines
+    fndMine(player, hdnGrid);
+    
+//to loop displaying the game, determine if win/loss
+    control(player, grid, hdnGrid);
+    
+//free dynamically allocated memory for grid and hdnGrid
+    delete [] grid;
+    grid = nullptr;                     //make grid a null pointer
+    delete [] hdnGrid;
+    hdnGrid = nullptr;                  //make hdnGrid a null pointer
     
     return 0;
 }
-
-//******************************************************************************
-// Definition of function usrInput
-// This function uses a reference variable for the input of the user. The 
-// function outputs the string text from the function call to tell the user
-// the parameters that should be entered. 
-//******************************************************************************
-void usrInput(Board &p)
-{   
-    int choice;
-    
-    cout << "The options:\n";
-    cout << "1. BEGINNER -     8x8   field, 10 mines\n";
-    cout << "2. INTERMEDIATE - 16x16 field, 40 mines\n";
-    cout << "3. EXPERT -       24x24 field, 99 mines\n";
-    cout << "Your choice: ";
-    
-    cin >> choice;
-    
-    while((choice > 4) || (choice < 0))
-    {
-        cout << "ERROR. Enter a valid input : ";
-        cin >> choice;
-    }
-    
-    if(choice == 1)
-    {
-        p.size = 8;
-        p.mines = 10;
-    }
-    else if(choice ==2)
-    {
-        p.size = 16;
-        p.mines = 40;
-    }
-    else if(choice == 3)
-    {
-        p.size = 24;
-        p.mines = 99;
-    }
-}
-
-//******************************************************************************
-//
-//******************************************************************************
-void setup(Board &p, char grid[], char hdnGrid[])
-{
-    int size = p.size * p.size;
-    
-    for(int count = 0; count < size; count++)
-    {
-        grid[count] = '-';
-        hdnGrid[count] = '-';
-    }
-}
-
-//******************************************************************************
-//
-//******************************************************************************
-void setMine(Board &p, char hdnGrid[])
-{
-    int mine;
-    int mineCnt;
-    
-    while (mineCnt < p.mines)
-    {
-        mine = rand() % (p.size * p.size);
-        
-        if(hdnGrid[mine] != '*')
-        {
-            hdnGrid[mine] = '*';
-            mineCnt++;
-        }
-    }   
-}
-

@@ -1,0 +1,20 @@
+HELLO
+Welcome to MINESWEEPER version 1.0 programmed by Christopher Alexman
+Here is how to play:
+
+You will have to make a choice between the beginner, intermediate, and expert options.
+Be warned, it will not be easy.
+Once one is selected a grid will be displayed to the specifications of your choice.
+You will then be asked this ---> "Enter row [space] column: "
+On your keyboard enter the row you wish and the column you wish.
+This will uncover one of the spots on the board and one of three things will happen.
+1. A mine ( '*' ) will show up and you will lose, immediately.
+2. A blank space ( ' ' ) will show up and you will be asked for another row/column.
+3. A number ( '1 through 8 ' ) will show up, giving you a clue.
+
+The goal is to avoid the mines and discover all of the spots on the grid that are 
+not mines. To do this use the hint. The numbers 1-8 that will show up will tell you
+how many of the 8 spots surrounding your selected spot are mines.
+
+The first row/column selection is a hit or miss for mines or not. Just try it and
+have fun. Good luck!
